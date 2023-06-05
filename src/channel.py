@@ -19,9 +19,30 @@ class Channel:
         self.title = channel_info['items'][0]['snippet']['title']
         self.description = channel_info['items'][0]['snippet']['description']
         self.url = f'https://www.youtube.com/channel/{self.channel_id}'
-        self.subscribers_count = channel_info['items'][0]['statistics']['subscriberCount']
-        self.video_count = channel_info['items'][0]['statistics']['videoCount']
-        self.view_count = channel_info['items'][0]['statistics']['viewCount']
+        self.subscribers_count = int(channel_info['items'][0]['statistics']['subscriberCount'])
+        self.video_count = int(channel_info['items'][0]['statistics']['videoCount'])
+        self.view_count = int(channel_info['items'][0]['statistics']['viewCount'])
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        return self.subscribers_count + other.subscribers_count
+
+    def __sub__(self, other):
+        return self.subscribers_count - other.subscribers_count
+
+    def __lt__(self, other):
+        return self.subscribers_count < other.subscribers_count
+
+    def __le__(self, other):
+        return self.subscribers_count <= other.subscribers_count
+
+    def __gt__(self, other):
+        return self.subscribers_count > other.subscribers_count
+
+    def __ge__(self, other):
+        return self.subscribers_count >= other.subscribers_count
 
     def print_info(self):
         """Выводит в консоль информацию о канале в формате JSON-строки с отступами"""
