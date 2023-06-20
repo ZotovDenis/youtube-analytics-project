@@ -11,13 +11,16 @@ class Video:
 
     def __init__(self, video_id: str) -> None:
         self.video_id = video_id
-        video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
+        try:
+            video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
                                                     id=video_id
                                                     ).execute()
-        self.video_title: str = video_response['items'][0]['snippet']['title']
-        self.video_url: str = f'https://youtu.be/{self.video_id}'
-        self.view_count: int = video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+            self.video_title: str = video_response['items'][0]['snippet']['title']
+            self.video_url: str = f'https://youtu.be/{self.video_id}'
+            self.view_count: int = video_response['items'][0]['statistics']['viewCount']
+            self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+        except Exception:
+            self.video_title = self.video_url = self.video_url = self.view_count = self.like_count = None
 
     def __str__(self):
         """Возвращаем название видео"""
